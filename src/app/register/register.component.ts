@@ -40,6 +40,7 @@ export class RegisterComponent {
         validators: [repeatPasswordValidator],
       } as AbstractControlOptions
     );
+    
   }
 
   register() {
@@ -52,7 +53,7 @@ export class RegisterComponent {
       mobile: this.registerForm.get('mobile')?.value,
       password: this.registerForm.get('password')?.value,
       blocked: false,
-      active: false,
+      active: true,
       createdOn: '',
       fine: 0,
     };
@@ -66,6 +67,7 @@ export class RegisterComponent {
         console.log(err);
       },
     });
+    this.registerForm.reset();
   }
 
   getFirstNameErrors() {

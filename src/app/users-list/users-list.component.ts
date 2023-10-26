@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/models';
 import { ApiService } from '../services/api.service';
+import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
+import {ToastrService} from 'ngx-toastr';
+
 
 @Component({
   selector: 'users-list',
   templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.scss'],
+  styleUrls: ['./users-list.component.css'],
 })
 export class UsersListComponent implements OnInit {
   users: User[] = [];
@@ -21,7 +24,7 @@ export class UsersListComponent implements OnInit {
     'action',
   ];
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService,private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.api.getAllUsers().subscribe({
@@ -67,5 +70,16 @@ export class UsersListComponent implements OnInit {
         error: (err: any) => console.log(err),
       });
     }
+  }
+  showRemind(user:User){
+    emailjs.send("service_9xkgk1o","template_fcarwer",{
+      reply_to:user.email
+      },"rBqK10Mt7xqCSiKQB");
+     
+      this.showSuccess();
+  }
+
+  showSuccess(){
+    this.toastr.success('Mail Sent Successfully','Success');
   }
 }
